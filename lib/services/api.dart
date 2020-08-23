@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:konoha/state/keys.dart';
 
-const api = 'http://localhost:5000';
+const api = 'http://10.0.2.2:5000';
 
 attemptLogin(String email, String password) async {
   try {
@@ -14,10 +14,10 @@ attemptLogin(String email, String password) async {
           'password': password,
         }));
     if (resp.statusCode == 400) {
-      return {"error": "Incorrect Credentials"};
+      return {"error": resp.body};
     }
-    storeToken('token', resp.body);
-    return {"error": null};
+    await storeToken('token', resp.body);
+    return {"token": resp.body, "error": null};
   } catch (err) {
     return {"error": err};
   }

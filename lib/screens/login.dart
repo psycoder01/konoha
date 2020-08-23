@@ -4,6 +4,9 @@ import 'package:konoha/widgets/units/textinput.dart';
 import 'package:konoha/widgets/units/button.dart';
 import 'package:konoha/services/validation.dart';
 import 'package:konoha/services/api.dart';
+import 'package:provider/provider.dart';
+import 'package:konoha/state/user.dart';
+import 'package:konoha/screens/home.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -20,28 +23,41 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.width;
+    var user = Provider.of<UserModel>(context);
 
     void login() async {
+      var email = _emailController.text;
+      var pass = _passwordController.text;
+
       setState(() {
         loggin = true;
       });
-      if (emailCheck(_emailController.text) &&
-          passCheck(_passwordController.text)) {
-        var email = _emailController.text;
-        var pass = _passwordController.text;
-        var resp = await attemptLogin(email, pass);
-        if (resp['error'] != null) {
-          setState(() {
-            loginError = resp['error'];
-          });
-        }
-        setState(() {
-          loggin = false;
-        });
-      } else {
+
+      if (!emailCheck(email) && !passCheck(pass)) {
         setState(() {
           loggin = false;
           loginError = 'Credentials mismatched!';
+        });
+        return null;
+      }
+
+      try {
+        var resp = await attemptLogin(email, pass);
+        if (resp['error'] != null) {
+          setState(() {
+            loggin = false;
+            loginError = resp['error'];
+          });
+          return null;
+        }
+        user.token = resp['token'];
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      } catch (err) {
+        print(err.toString());
+        setState(() {
+          loggin = false;
+          loginError = "Something Oppsy Occured! Try Again Later !";
         });
       }
     }
@@ -60,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.transparent,
         body: ListView(
           children: <Widget>[
-            SizedBox(height: screenHeight / 4),
+            SizedBox(height: screenHeight / 6),
             Text(
               'Konoha',
               style: TextStyle(
@@ -71,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: screenHeight / 6),
+            SizedBox(height: screenHeight / 7),
             Padding(
               padding: const EdgeInsets.fromLTRB(40.0, 10.0, 0.0, 0.0),
               child: Container(
