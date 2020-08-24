@@ -2,7 +2,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 final storage = new FlutterSecureStorage();
 
-getToken(key) async{
+getLocalToken(key) async{
   return await storage.read(key:key); 
 }
 
