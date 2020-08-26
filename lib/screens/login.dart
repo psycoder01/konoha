@@ -7,6 +7,7 @@ import 'package:konoha/services/api.dart';
 import 'package:provider/provider.dart';
 import 'package:konoha/state/user.dart';
 import 'package:konoha/screens/home.dart';
+import 'package:konoha/screens/signup.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -148,12 +149,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: pureWhite,
                   ),
                 ),
-                Text(
-                  " Sign Up",
-                  style: TextStyle(
-                    fontFamily: 'Inconsolata',
-                    fontSize: 13.0,
-                    color: buttonBgColor,
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => SignUpScreen()));
+                  },
+                  child: Text(
+                    " Sign Up",
+                    style: TextStyle(
+                      fontFamily: 'Inconsolata',
+                      fontSize: 13.0,
+                      color: buttonBgColor,
+                    ),
                   ),
                 ),
               ],

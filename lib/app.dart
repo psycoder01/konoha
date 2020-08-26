@@ -12,7 +12,8 @@ class Konoha extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Konoha',
-      home: token != "null" ? HomeScreen() : LoginScreen(),
+      //home: token != "null" ? HomeScreen() : LoginScreen(),
+      home: LoginScreen(),
     );
   }
 }

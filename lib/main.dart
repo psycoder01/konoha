@@ -7,8 +7,9 @@ import 'package:konoha/state/user.dart';
 import 'package:konoha/state/keys.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(Initializer(token: await getLocalToken('token')));
+  //WidgetsFlutterBinding.ensureInitialized();
+  //runApp(Initializer(token: await getLocalToken('token')));
+  runApp(Initializer(token:'test'));
 }
 
 class Initializer extends StatelessWidget {
