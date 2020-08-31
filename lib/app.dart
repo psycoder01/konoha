@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // Importing Screens
 import 'screens/home.dart';
 import 'screens/login.dart';
+import 'screens/navigation.dart';
 
 class Konoha extends StatelessWidget {
   final String token;
@@ -13,7 +14,7 @@ class Konoha extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Konoha',
       //home: token != "null" ? HomeScreen() : LoginScreen(),
-      home: LoginScreen(),
+      home: NavigationScreen(),
     );
   }
 }

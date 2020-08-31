@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
 class KBottomBar extends StatelessWidget {
-  final int _currentIndex = 0;
+  final int currentIndex;
+  final Function onTabTapped;
+  KBottomBar({this.currentIndex: 0, this.onTabTapped});
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: _currentIndex,
+      elevation: 5.0,
+      currentIndex: currentIndex,
       selectedItemColor: Colors.blue,
+      onTap: onTabTapped,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
