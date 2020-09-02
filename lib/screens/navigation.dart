@@ -12,6 +12,7 @@ class NavigationScreen extends StatefulWidget {
 
 class _NavigationScreenState extends State<NavigationScreen> {
   int _index = 0;
+  final List<String> _titles = ["Konoha","Chats","Account"];
   final List<Widget> _pages = [HomeScreen(), MessegeScreen(), AccountScreen()];
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(50.0),
         child: KAppBar(
-          title: 'Konoha',
+          title: _titles[_index],
           leadingIcon: IconButton(
             icon: Icon(Icons.tune),
             onPressed: () {
