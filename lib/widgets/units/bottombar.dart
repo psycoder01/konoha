@@ -8,7 +8,10 @@ class KBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      elevation: 5.0,
+      showSelectedLabels:false,
+      iconSize:30.0,
+      showUnselectedLabels:false,
+      elevation: 0.0,
       currentIndex: currentIndex,
       selectedItemColor: Colors.blue,
       onTap: onTabTapped,
@@ -22,7 +25,7 @@ class KBottomBar extends StatelessWidget {
           title: Text(''),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.account_box),
+          icon: Icon(Icons.notifications),
           title: Text(''),
         ),
       ],

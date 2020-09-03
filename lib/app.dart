@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:konoha/constants/theme.dart';
 
 // Importing Screens
 import 'screens/home.dart';
@@ -15,6 +16,7 @@ class Konoha extends StatelessWidget {
       title: 'Konoha',
       //home: token != "null" ? HomeScreen() : LoginScreen(),
       home: NavigationScreen(),
+      theme: konohaTheme,
     );
   }
 }
