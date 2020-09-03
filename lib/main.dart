@@ -5,11 +5,12 @@ import 'package:provider/provider.dart';
 //Models
 import 'package:konoha/state/user.dart';
 import 'package:konoha/state/keys.dart';
+import 'package:konoha/state/posts.dart';
 
 void main() async {
   //WidgetsFlutterBinding.ensureInitialized();
   //runApp(Initializer(token: await getLocalToken('token')));
-  runApp(Initializer(token:'test'));
+  runApp(Initializer(token: 'test'));
 }
 
 class Initializer extends StatelessWidget {
@@ -22,6 +23,7 @@ class Initializer extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UserModel()),
+        ChangeNotifierProvider(create: (context) => PostModel())
       ],
       child: Konoha(token: token),
     );

@@ -5,6 +5,11 @@ import 'package:konoha/state/keys.dart';
 
 const api = 'http://10.0.2.2:5000';
 
+Map<String, String> header = {
+  HttpHeaders.contentTypeHeader: 'application/json'
+};
+
+//Authentication
 attemptLogin(String email, String password) async {
   try {
     var resp = await http.post("$api/api/auth/login",
@@ -38,6 +43,13 @@ attemptSignUp(String email, String password, String fName) async {
   }
 }
 
-Map<String, String> header = {
-  HttpHeaders.contentTypeHeader: 'application/json'
-};
+//Post
+getPosts() async {
+  try {
+    var res = await http.get('$api/api/post/');
+    return {"data": json.decode(res.body), "error": null};
+  } catch (err) {
+    print(err);
+    return {"error": err};
+  }
+}
