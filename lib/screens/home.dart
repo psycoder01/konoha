@@ -13,21 +13,27 @@ class HomeScreen extends StatelessWidget {
         ? Center(child: CircularProgressIndicator())
         : ListView.builder(
             padding: const EdgeInsets.all(0),
-            itemCount: postState.posts.length,
+            itemCount: postState.posts.length + 1,
             itemBuilder: (BuildContext context, int i) {
+              if (i == postState.posts.length) {
+                return Align(
+                  child: RaisedButton(
+                      child: Text("Load More!"),
+                      onPressed: () {
+                        print("refresh");
+                      }),
+                );
+              }
               var author =
                   postState.getAuthorDetails(postState.posts[i]['author']);
               var imgUrl =
                   author[0]['imgUrl'].replaceAll('localhost', '10.0.2.2');
-              print(imgUrl);
               return ListTile(
                 contentPadding: const EdgeInsets.all(2.0),
                 title: KCard(
                   name: author[0]['name'],
                   content: postState.posts[i]['content'],
                   imgUrl: imgUrl,
-                  //imgUrl: postState
-                  //.getAuthorDetails(postState.posts[i]['_id']).imgUrl,
                 ),
               );
             },
