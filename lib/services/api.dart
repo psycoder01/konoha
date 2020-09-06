@@ -53,3 +53,17 @@ getPosts() async {
     return {"error": err};
   }
 }
+
+//User
+getUser(token) async {
+  try {
+    var res = await http.get('$api/api/user/', headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.authorizationHeader: token
+    });
+    return {"data": json.decode(res.body), "error": null};
+  } catch (err) {
+    print(err);
+    return {"error": err};
+  }
+}
