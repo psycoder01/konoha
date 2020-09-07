@@ -12,13 +12,12 @@ class PostModel extends ChangeNotifier {
 
   void setPosts() async {
     var result = await getPosts();
-    _posts = result['data']['post'];
+    _posts = result['data']['post'].reversed.toList();
     _authors = result['data']['author'];
     notifyListeners();
   }
 
   getAuthorDetails(id) {
-    var filter = _authors.where((author) => author['_id'].contains(id)).toList();
-    return filter;
+    return _authors.where((author) => author['_id'].contains(id)).toList();
   }
 }

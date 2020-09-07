@@ -24,15 +24,16 @@ class HomeScreen extends StatelessWidget {
                       }),
                 );
               }
-              var author =
-                  postState.getAuthorDetails(postState.posts[i]['author']);
+              var author = postState.getAuthorDetails(
+                  postState.posts[i]['author']);
               var imgUrl =
                   author[0]['imgUrl'].replaceAll('localhost', '10.0.2.2');
               return ListTile(
                 contentPadding: const EdgeInsets.all(2.0),
                 title: KCard(
                   name: author[0]['name'],
-                  content: postState.posts[i]['content'],
+                  content: postState.posts[i]
+                      ['content'],
                   imgUrl: imgUrl,
                 ),
               );
