@@ -6,9 +6,10 @@ class UserModel extends ChangeNotifier {
   UserModel() {
     getLocalToken('token').then((storedToken) {
       token = storedToken;
-      if(token != "null"){
+      if(token != null){
         getUserDetails(token);
       }
+      notifyListeners();
     });
   }
 

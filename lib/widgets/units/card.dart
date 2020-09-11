@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:konoha/constants/colors.dart';
 
 class KCard extends StatelessWidget {
-  final String name, imgUrl, content;
-  KCard({this.name, this.imgUrl, this.content});
+  final String name, imgUrl, content, postId;
+  final int likesCount, commentsCount;
+  final Function likePressed, commentPressed;
+  final bool liked;
+  KCard(
+      {this.name,
+      this.imgUrl,
+      this.content,
+      this.postId,
+      this.likesCount,
+      this.commentsCount,
+      this.likePressed,
+      this.commentPressed,
+      this.liked});
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -35,6 +48,18 @@ class KCard extends StatelessWidget {
               )
             ],
           ),
+          Row(children: <Widget>[
+            Text('   $likesCount'),
+            IconButton(
+                icon: Icon(liked ? Icons.favorite : Icons.favorite_border),
+                color: primaryRedColor,
+                onPressed: likePressed),
+            Text('  $commentsCount'),
+            IconButton(
+                icon: Icon(Icons.comment),
+                color: primaryBlueColor,
+                onPressed: commentPressed),
+          ]),
         ],
       ),
     );

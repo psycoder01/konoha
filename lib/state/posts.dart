@@ -20,4 +20,33 @@ class PostModel extends ChangeNotifier {
   getAuthorDetails(id) {
     return _authors.where((author) => author['_id'].contains(id)).toList();
   }
+
+  likePost(int postIndex, String userId) {
+    if (_posts[postIndex]['likes'].any((item) => item == userId)) {
+      _posts[postIndex]['likesCount'] -= 1;
+      apiUnlikePost(_posts[postIndex]['_id']).then((resp) {
+        if (resp != "Success") {
+          _posts[postIndex]['likesCount'] += 1;
+          _posts[postIndex]['likes'].add(userId);
+        }
+        notifyListeners();
+      }).catchError((err) {
+        print(err);
+      });
+      _posts[postIndex]['likes'].removeWhere((item) => item == userId);
+    } else {
+      _posts[postIndex]['likesCount'] += 1;
+      apiLikePost(_posts[postIndex]['_id']).then((resp) {
+        if (resp != "Success") {
+          _posts[postIndex]['likesCount'] -= 1;
+          _posts[postIndex]['likes'].removeWhere((item) => item == userId);
+        }
+        notifyListeners();
+      }).catchError((err) {
+        print(err);
+      });
+      _posts[postIndex]['likes'].add(userId);
+    }
+    notifyListeners();
+  }
 }

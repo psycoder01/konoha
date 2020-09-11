@@ -4,6 +4,9 @@ import 'package:konoha/widgets/units/appbar.dart';
 import 'package:konoha/screens/home.dart';
 import 'package:konoha/screens/messeges.dart';
 import 'package:konoha/screens/account.dart';
+import 'package:konoha/state/keys.dart';
+import 'package:konoha/state/user.dart';
+import 'package:provider/provider.dart';
 
 class NavigationScreen extends StatefulWidget {
   @override
@@ -16,6 +19,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final List<Widget> _pages = [HomeScreen(), MessegeScreen(), AccountScreen()];
   @override
   Widget build(BuildContext context) {
+  final userState = Provider.of<UserModel>(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(50.0),
@@ -24,13 +28,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
           leadingIcon: IconButton(
             icon: Icon(Icons.tune),
             onPressed: () {
-              print('Menu button Pressed');
+              delToken('token');
             },
           ),
           trailIcon: IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-                print("Search button Pressed");
+                print(userState.token);
               }),
         ),
       ),

@@ -6,7 +6,7 @@ import 'package:konoha/services/validation.dart';
 import 'package:konoha/services/api.dart';
 import 'package:provider/provider.dart';
 import 'package:konoha/state/user.dart';
-import 'package:konoha/screens/home.dart';
+import 'package:konoha/screens/navigation.dart';
 import 'package:konoha/screens/signup.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
         }
         user.token = resp['token'];
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+            context, MaterialPageRoute(builder: (context) => NavigationScreen()));
       } catch (err) {
         print(err.toString());
         setState(() {

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:konoha/state/keys.dart';
 
-const api = 'http://10.0.2.2:5000';
+const api = 'http://192.168.1.108:5000';
 
 Map<String, String> header = {
   HttpHeaders.contentTypeHeader: 'application/json'
@@ -51,6 +51,36 @@ getPosts() async {
   } catch (err) {
     print(err);
     return {"error": err};
+  }
+}
+
+Future<String> apiLikePost(String postId) async {
+  try {
+    var res = await http.post('$api/api/post/$postId/like', headers: {
+      HttpHeaders.authorizationHeader: await getLocalToken('token')
+    });
+    if (res.statusCode == 404) {
+      return "Some Error Occured!";
+    }
+    return "Success";
+  } catch (err) {
+    print(err);
+    return "Some Error Occured";
+  }
+}
+
+apiUnlikePost(String postId) async {
+  try {
+    var res = await http.post('$api/api/post/$postId/unlike', headers: {
+      HttpHeaders.authorizationHeader: await getLocalToken('token')
+    });
+    if (res.statusCode == 404) {
+      return {"error": res.body};
+    }
+    return "Success";
+  } catch (err) {
+    print(err);
+    return {"error ": err};
   }
 }
 
