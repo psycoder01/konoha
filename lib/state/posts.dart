@@ -49,4 +49,18 @@ class PostModel extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  commentPost(
+      int postIndex, String userId, String postId, String comment) async {
+    try {
+      var res = await apiCommentPost(comment, postId);
+      if (res != "Success") return res;
+      _posts[postIndex]['comments']
+          .add({'commenterId': userId, 'comment': comment});
+      _posts[postIndex]['commentsCount'] += 1;
+      notifyListeners();
+    } catch (err) {
+      print(err);
+    }
+  }
 }
