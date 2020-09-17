@@ -50,14 +50,54 @@ class PostModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  commentPost(
-      int postIndex, String userId, String postId, String comment) async {
+  commentPost(int postIndex, Map user, String postId, String comment) async {
     try {
       var res = await apiCommentPost(comment, postId);
-      if (res != "Success") return res;
-      _posts[postIndex]['comments']
-          .add({'commenterId': userId, 'comment': comment});
+      if (res['error'] != null) return res;
+      res['name'] = user['name'];
+      res['imgUrl'] = await user['imgUrl'].replaceAll('localhost', '192.168.1.104');
+      _posts[postIndex]['comments'].add(res);
       _posts[postIndex]['commentsCount'] += 1;
+      notifyListeners();
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  commenters(int postIndex, String postId) async {
+    var len = _posts[postIndex]['commentsCount'];
+    try {
+      var commenterIds = [];
+      _posts[postIndex]['comments']
+          .forEach((item) => commenterIds.add(item['commenterId']));
+      var res = await apiGetUsers(commenterIds);
+      for (var i = 0; i < len; i++) {
+        var commenterId = commenterIds[i];
+        var user = await res['data'].where((item) {
+          if (item['_id'] == commenterId)
+            return true;
+          else
+            return false;
+        }).toList();
+
+        _posts[postIndex]['comments'][i]['name'] = user[0]['name'];
+        _posts[postIndex]['comments'][i]['imgUrl'] =
+            user[0]['imgUrl'].replaceAll('localhost', '192.168.1.104');
+      }
+      notifyListeners();
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  delComment(int postIndex, int commentIndex) async {
+    try {
+      var res = await apiDelComment(_posts[postIndex]['_id'],
+          _posts[postIndex]['comments'][commentIndex]['_id']);
+      if(res != "Success")
+        return;
+      _posts[postIndex]['comments'].removeAt(commentIndex);
+      _posts[postIndex]['commentsCount'] -= 1;
       notifyListeners();
     } catch (err) {
       print(err);

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:konoha/state/keys.dart';
 
-const api = 'http://192.168.1.101:5000';
+const api = 'http://192.168.1.104:5000';
 
 Map<String, String> header = {
   HttpHeaders.contentTypeHeader: 'application/json'
@@ -84,7 +84,7 @@ apiUnlikePost(String postId) async {
   }
 }
 
-Future<String> apiCommentPost(String comment, String postId) async {
+Future<Map> apiCommentPost(String comment, String postId) async {
   try {
     var res = await http.post('$api/api/post/$postId/comment',
         headers: {
@@ -92,11 +92,27 @@ Future<String> apiCommentPost(String comment, String postId) async {
           HttpHeaders.contentTypeHeader: 'application/json'
         },
         body: jsonEncode(<String, String>{'comment': comment}));
-    if (res.statusCode == 400) return "Some Error Occured!";
+    if (res.statusCode == 400) return {"error": "Some Error Occured!"};
+    return json.decode(res.body);
+  } catch (err) {
+    print(err);
+    return {"error": "Some Error Occured!"};
+  }
+}
+
+Future<String> apiDelComment(String postId, String commentId) async {
+  try {
+    var res = await http.post('$api/api/post/$postId/uncomment',
+        headers: {
+          HttpHeaders.authorizationHeader: await getLocalToken('token'),
+          HttpHeaders.contentTypeHeader: 'application/json'
+        },
+        body: jsonEncode(<String, String>{'commentId': commentId}));
+    if (res.statusCode == 400) return "Server Error!!";
     return "Success";
   } catch (err) {
     print(err);
-    return "Some Error Occured!";
+    return "Server Error!";
   }
 }
 
@@ -107,6 +123,21 @@ getUser(token) async {
       HttpHeaders.contentTypeHeader: 'application/json',
       HttpHeaders.authorizationHeader: token
     });
+    return {"data": json.decode(res.body), "error": null};
+  } catch (err) {
+    print(err);
+    return {"error": err};
+  }
+}
+
+apiGetUsers(List commenterIds) async {
+  try {
+    var res = await http.post('$api/api/user/users',
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: await getLocalToken('token')
+        },
+        body: jsonEncode(<String, List>{'userIds': commenterIds}));
     return {"data": json.decode(res.body), "error": null};
   } catch (err) {
     print(err);
