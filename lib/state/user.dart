@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:konoha/state/keys.dart';
 import 'package:konoha/services/api.dart';
+import 'package:konoha/constants/configs.dart';
 
 class UserModel extends ChangeNotifier {
   UserModel() {
@@ -21,7 +22,7 @@ class UserModel extends ChangeNotifier {
 
   getUserDetails(token) async {
     var res = await getUser(token);
-    data = res['data'];
+    res['data']['imgUrl'].replaceAll('localhost', localhostIp);
     notifyListeners();
   }
 }

@@ -4,6 +4,7 @@ import 'package:konoha/state/posts.dart';
 import 'package:konoha/state/user.dart';
 import 'package:konoha/widgets/units/card.dart';
 import 'package:konoha/screens/showComments.dart';
+import 'package:konoha/constants/configs.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -29,7 +30,7 @@ class HomeScreen extends StatelessWidget {
               var author =
                   postState.getAuthorDetails(postState.posts[i]['author']);
               var imgUrl =
-                  author[0]['imgUrl'].replaceAll('localhost', '192.168.1.104');
+                  author[0]['imgUrl'].replaceAll('localhost', localhostIp);
               bool liked = postState.posts[i]['likes']
                   .any((item) => item == userState.getData['_id']);
               return ListTile(

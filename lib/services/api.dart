@@ -2,8 +2,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
 import 'package:konoha/state/keys.dart';
+import 'package:konoha/constants/configs.dart';
 
-const api = 'http://192.168.1.104:5000';
+const api = 'http://$localhostIp:5000';
 
 Map<String, String> header = {
   HttpHeaders.contentTypeHeader: 'application/json'
@@ -51,6 +52,22 @@ getPosts() async {
   } catch (err) {
     print(err);
     return {"error": err};
+  }
+}
+
+Future<Map> apipAddPost(String content) async {
+  try {
+    var res = await http.post('$api/api/post/',
+        headers: {
+          HttpHeaders.authorizationHeader: await getLocalToken('token'),
+          HttpHeaders.contentTypeHeader: 'application/json'
+        },
+        body: jsonEncode(<String, String>{'content': content}));
+    if (res.statusCode == 400) return {"error": "Error"};
+    return json.decode(res.body);
+  } catch (err) {
+    print(err);
+    return {"error": "Not Connected"};
   }
 }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:konoha/services/api.dart';
+import 'package:konoha/constants/configs.dart';
 
 class PostModel extends ChangeNotifier {
   PostModel() {
@@ -19,6 +20,27 @@ class PostModel extends ChangeNotifier {
 
   getAuthorDetails(id) {
     return _authors.where((author) => author['_id'].contains(id)).toList();
+  }
+
+  addPost(String comment, Map user) async {
+    try {
+      var res = await apipAddPost(comment);
+      if (res["error"] != null) return res;
+      _posts.insert(0, res);
+      var check = _authors.where((item) => item['_id'] == user['_id']);
+      if (check.length == 0) {
+        var newUser = {
+          "_id": user['_id'],
+          "name": user['name'],
+          "email": user['email'],
+          "imgUrl": user['imgUrl']
+        };
+        _authors.add(newUser);
+      }
+      notifyListeners();
+    } catch (err) {
+      print(err);
+    }
   }
 
   likePost(int postIndex, String userId) {
@@ -55,7 +77,7 @@ class PostModel extends ChangeNotifier {
       var res = await apiCommentPost(comment, postId);
       if (res['error'] != null) return res;
       res['name'] = user['name'];
-      res['imgUrl'] = await user['imgUrl'].replaceAll('localhost', '192.168.1.104');
+      res['imgUrl'] = await user['imgUrl'].replaceAll('localhost', localhostIp);
       _posts[postIndex]['comments'].add(res);
       _posts[postIndex]['commentsCount'] += 1;
       notifyListeners();
@@ -82,7 +104,7 @@ class PostModel extends ChangeNotifier {
 
         _posts[postIndex]['comments'][i]['name'] = user[0]['name'];
         _posts[postIndex]['comments'][i]['imgUrl'] =
-            user[0]['imgUrl'].replaceAll('localhost', '192.168.1.104');
+            user[0]['imgUrl'].replaceAll('localhost', localhostIp);
       }
       notifyListeners();
     } catch (err) {
@@ -94,8 +116,7 @@ class PostModel extends ChangeNotifier {
     try {
       var res = await apiDelComment(_posts[postIndex]['_id'],
           _posts[postIndex]['comments'][commentIndex]['_id']);
-      if(res != "Success")
-        return;
+      if (res != "Success") return;
       _posts[postIndex]['comments'].removeAt(commentIndex);
       _posts[postIndex]['commentsCount'] -= 1;
       notifyListeners();
