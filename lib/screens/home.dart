@@ -33,6 +33,8 @@ class HomeScreen extends StatelessWidget {
                   author[0]['imgUrl'].replaceAll('localhost', localhostIp);
               bool liked = postState.posts[i]['likes']
                   .any((item) => item == userState.getData['_id']);
+              bool del =
+                  postState.posts[i]['author'] == userState.getData['_id'];
               return ListTile(
                 contentPadding: const EdgeInsets.all(2.0),
                 title: KCard(
@@ -56,6 +58,10 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                   liked: liked,
+                  deleteable: del,
+                  delPressed: () {
+                    postState.deletePost(i);
+                  },
                 ),
               );
             },

@@ -133,6 +133,23 @@ Future<String> apiDelComment(String postId, String commentId) async {
   }
 }
 
+Future<String> apiDelPost(String postId) async {
+  try {
+    var res = await http.delete(
+      '$api/api/post/$postId/',
+      headers: {
+        HttpHeaders.authorizationHeader: await getLocalToken('token'),
+        HttpHeaders.contentTypeHeader: 'application/json'
+      },
+    );
+    if (res.statusCode == 400) return "Server Error!!";
+    return "Success";
+  } catch (err) {
+    print(err);
+    return "Server Error!";
+  }
+}
+
 //User
 getUser(token) async {
   try {

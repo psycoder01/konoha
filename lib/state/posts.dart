@@ -124,4 +124,17 @@ class PostModel extends ChangeNotifier {
       print(err);
     }
   }
+
+  deletePost(int postIndex) async {
+    try {
+      var res = await apiDelPost(_posts[postIndex]['_id']);
+      if (res != "Success") return;
+      _posts.removeAt(postIndex);
+      notifyListeners();
+      return res;
+    } catch (err) {
+      print(err);
+      return "Error";
+    }
+  }
 }

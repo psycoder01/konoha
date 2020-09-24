@@ -7,7 +7,7 @@ class UserModel extends ChangeNotifier {
   UserModel() {
     getLocalToken('token').then((storedToken) {
       token = storedToken;
-      if(token != null){
+      if (token != null) {
         getUserDetails(token);
       }
       notifyListeners();
@@ -23,6 +23,7 @@ class UserModel extends ChangeNotifier {
   getUserDetails(token) async {
     var res = await getUser(token);
     res['data']['imgUrl'].replaceAll('localhost', localhostIp);
+    data = res['data'];
     notifyListeners();
   }
 }
