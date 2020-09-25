@@ -9,6 +9,8 @@ import 'package:konoha/state/user.dart';
 import 'package:provider/provider.dart';
 import 'package:konoha/constants/colors.dart';
 import 'package:konoha/screens/addPost.dart';
+import 'package:konoha/constants/configs.dart';
+import 'package:konoha/screens/login.dart';
 
 class NavigationScreen extends StatefulWidget {
   @override
@@ -27,17 +29,44 @@ class _NavigationScreenState extends State<NavigationScreen> {
         preferredSize: Size.fromHeight(50.0),
         child: KAppBar(
           title: _titles[_index],
-          leadingIcon: IconButton(
-            icon: Icon(Icons.tune),
-            onPressed: () {
-              delToken('token');
-            },
-          ),
           trailIcon: IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
                 print(userState.token);
               }),
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            userState.getData['imgUrl'] != null
+                ? DrawerHeader(
+                    child: Image.network(
+                      userState.getData['imgUrl']
+                          .replaceAll('localhost', localhostIp),
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(child: Text('Loading...'))),
+            ListTile(
+              title: Text("Profile"),
+              onTap: () {
+                print("Profile location ");
+              },
+            ),
+            ListTile(
+              title: Text("Log Out"),
+              onTap: () {
+                delToken('token');
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => LoginScreen()));
+              },
+            )
+          ],
         ),
       ),
       body: _pages[_index],

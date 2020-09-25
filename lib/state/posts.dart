@@ -11,7 +11,7 @@ class PostModel extends ChangeNotifier {
   get posts => _posts;
   get authors => _authors;
 
-  void setPosts() async {
+  Future<void> setPosts() async {
     var result = await getPosts();
     _posts = result['data']['post'].reversed.toList();
     _authors = result['data']['author'];
