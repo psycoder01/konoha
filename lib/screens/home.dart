@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
     final postState = Provider.of<PostModel>(context);
     final userState = Provider.of<UserModel>(context);
 
-    return postState.posts == null
+    return postState.posts == null && userState.getData['_id'] == null
         ? Center(child: CircularProgressIndicator())
         : RefreshIndicator(
             child: ListView.builder(

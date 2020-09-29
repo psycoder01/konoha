@@ -51,9 +51,9 @@ class _LoginScreenState extends State<LoginScreen> {
           });
           return null;
         }
-        user.token = resp['token'];
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => NavigationScreen()));
+        user.setToken(resp['token']);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => NavigationScreen()));
       } catch (err) {
         print(err.toString());
         setState(() {

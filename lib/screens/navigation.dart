@@ -11,6 +11,7 @@ import 'package:konoha/constants/colors.dart';
 import 'package:konoha/screens/addPost.dart';
 import 'package:konoha/constants/configs.dart';
 import 'package:konoha/screens/login.dart';
+import 'package:konoha/screens/profile.dart';
 
 class NavigationScreen extends StatefulWidget {
   @override
@@ -53,7 +54,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
             ListTile(
               title: Text("Profile"),
               onTap: () {
-                print("Profile location ");
+                  Navigator.push(context,MaterialPageRoute(builder:(context)=> ProfileScreen()));
               },
             ),
             ListTile(

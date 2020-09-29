@@ -17,13 +17,19 @@ class UserModel extends ChangeNotifier {
   String token = "null";
   Map data = {};
 
+  setToken(value) {
+    token = value;
+    getUserDetails(value);
+    notifyListeners();
+  }
+
   String get getToken => token;
   get getData => data;
 
   getUserDetails(token) async {
     var res = await getUser(token);
     res['data']['imgUrl'].replaceAll('localhost', localhostIp);
-    data = res['data'];
+    data = await res['data'];
     notifyListeners();
   }
 }
