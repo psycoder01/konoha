@@ -178,3 +178,25 @@ apiGetUsers(List commenterIds) async {
     return {"error": err};
   }
 }
+
+Future<Map> apiUpdateUserDetails(String email, String name, String bio, String nature,
+    String location) async {
+  try {
+    var res = await http.put('$api/api/user/',
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: await getLocalToken('token')
+        },
+        body: jsonEncode(<String, String>{
+          'email': email,
+          'name': name,
+          'bio': bio,
+          'nature': nature,
+          'location': location
+        }));
+    if (res.statusCode != 200) return {"error": "Server Error"};
+    return {"data": null, "error": null};
+  } catch (err) {
+    return {"error": "Some Error Occured"};
+  }
+}

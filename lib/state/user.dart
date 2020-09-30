@@ -32,4 +32,13 @@ class UserModel extends ChangeNotifier {
     data = await res['data'];
     notifyListeners();
   }
+
+  Future<String> updateDetails(String email, String name, String bio,
+      String nature, String location) async {
+    var res = await apiUpdateUserDetails(email, name, bio, nature, location);
+    if (res['error'] != null) return "Error!!";
+    getUserDetails(token);
+    notifyListeners();
+    return "Success";
+  }
 }
