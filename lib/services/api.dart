@@ -179,8 +179,8 @@ apiGetUsers(List commenterIds) async {
   }
 }
 
-Future<Map> apiUpdateUserDetails(String email, String name, String bio, String nature,
-    String location) async {
+Future<Map> apiUpdateUserDetails(String email, String name, String bio,
+    String nature, String location) async {
   try {
     var res = await http.put('$api/api/user/',
         headers: {
@@ -198,5 +198,20 @@ Future<Map> apiUpdateUserDetails(String email, String name, String bio, String n
     return {"data": null, "error": null};
   } catch (err) {
     return {"error": "Some Error Occured"};
+  }
+}
+
+Future<Map> apiSearchUsers(String username) async {
+  try {
+    var res = await http.get(
+      '$api/api/user/$username',
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+      },
+    );
+    if (res.statusCode != 200) return {"erorr": "Server Oppsy!"};
+    return {"data": json.decode(res.body), "error": null};
+  } catch (err) {
+    return {"error": "Oppsy!!"};
   }
 }

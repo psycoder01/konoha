@@ -12,6 +12,7 @@ import 'package:konoha/screens/addPost.dart';
 import 'package:konoha/constants/configs.dart';
 import 'package:konoha/screens/login.dart';
 import 'package:konoha/screens/profile.dart';
+import 'package:konoha/screens/search.dart';
 
 class NavigationScreen extends StatefulWidget {
   @override
@@ -33,7 +34,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
           trailIcon: IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-                print(userState.token);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SearchScreen()));
               }),
         ),
       ),
@@ -54,7 +56,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
             ListTile(
               title: Text("Profile"),
               onTap: () {
-                  Navigator.push(context,MaterialPageRoute(builder:(context)=> ProfileScreen()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfileScreen()));
               },
             ),
             ListTile(
